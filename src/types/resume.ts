@@ -6,63 +6,137 @@ export interface ResumeData {
     phone: string;
     location: string;
     summary: string;
+    linkedin: string;
+    github: string;
+    leetcode: string;
   };
-  experience: {
-    id: string;
-    company: string;
-    role: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-  }[];
   education: {
     id: string;
     institution: string;
     degree: string;
     startDate: string;
     endDate: string;
+    grade: string;
   }[];
-  skills: string[];
+  projects: {
+    id: string;
+    title: string;
+    subtitle: string;
+    date: string;
+    sourceLink: string;
+    liveLink: string;
+    bullets: string[];
+    techStack: string;
+  }[];
+  skills: {
+    id: string;
+    category: string;
+    items: string;
+  }[];
+  achievements: string[];
+  positions: {
+    id: string;
+    title: string;
+    organization: string;
+    date: string;
+  }[];
 }
 
 export const defaultResumeData: ResumeData = {
   personal: {
-    name: "John Doe",
-    title: "Senior Software Engineer",
-    email: "john@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "San Francisco, CA",
-    summary:
-      "Experienced software engineer with 8+ years building scalable web applications. Passionate about clean code and great user experiences.",
+    name: "Kavya Singh",
+    title: "B.Tech",
+    email: "kavyaasingh04@gmail.com",
+    phone: "+91 7632852004",
+    location: "",
+    summary: "",
+    linkedin: "LinkedIn",
+    github: "Github",
+    leetcode: "LeetCode",
   },
-  experience: [
-    {
-      id: "1",
-      company: "Tech Corp",
-      role: "Senior Software Engineer",
-      startDate: "2021-01",
-      endDate: "Present",
-      description:
-        "Led a team of 5 engineers building microservices architecture. Improved system performance by 40%.",
-    },
-    {
-      id: "2",
-      company: "StartupXYZ",
-      role: "Full Stack Developer",
-      startDate: "2018-06",
-      endDate: "2020-12",
-      description:
-        "Built and maintained core product features using React and Node.js. Grew user base from 1K to 50K.",
-    },
-  ],
   education: [
     {
       id: "1",
-      institution: "University of Technology",
-      degree: "B.S. Computer Science",
-      startDate: "2014-09",
-      endDate: "2018-05",
+      institution: "National Institute of Technology, Patna",
+      degree: "B.Tech in Computer Science & Engineering",
+      startDate: "2022",
+      endDate: "2026",
+      grade: "8.07/10 CGPA",
+    },
+    {
+      id: "2",
+      institution: "G V Vidayan",
+      degree: "Senior Secondary Education · Class 12th · CBSE",
+      startDate: "2019",
+      endDate: "2021",
+      grade: "91%",
+    },
+    {
+      id: "3",
+      institution: "G V Vidayan",
+      degree: "Secondary Education · Class 10th · CBSE",
+      startDate: "2018",
+      endDate: "2019",
+      grade: "96.6%",
     },
   ],
-  skills: ["React", "TypeScript", "Node.js", "Python", "AWS", "Docker", "PostgreSQL", "GraphQL"],
+  projects: [
+    {
+      id: "1",
+      title: "Full Stack Notes Website",
+      subtitle: "",
+      date: "",
+      sourceLink: "Source Code",
+      liveLink: "Live",
+      bullets: [
+        "Designed and developed a full-stack web application for creating, storing, and managing notes with user authentication capabilities.",
+        "Developed the frontend using React.js, leveraging Tailwind CSS for a responsive and modern UI/UX.",
+        "Implemented JWT (JSON Web Token) authentication to ensure secure user login and data protection.",
+        "Implemented MongoDB database to store user notes efficiently.",
+      ],
+      techStack: "HTML, CSS, JavaScript, React JS, JSON Web Token, MongoDB, Express.",
+    },
+    {
+      id: "2",
+      title: "Sorting Algorithm Visualizer",
+      subtitle: "",
+      date: "",
+      sourceLink: "Source Code",
+      liveLink: "",
+      bullets: [
+        "Developed an interactive web application that visually demonstrates the working of five sorting algorithms.",
+        "Implemented dynamic input controls, allowing users to modify array size and sorting speed in real-time.",
+        "Designed a responsive UI using HTML, CSS, and JavaScript, ensuring compatibility across devices.",
+        "Optimized animations to improve user engagement and ensure smooth performance.",
+      ],
+      techStack: "HTML, CSS, JavaScript, React.js",
+    },
+  ],
+  skills: [
+    { id: "1", category: "Languages", items: "C++, C, JavaScript" },
+    { id: "2", category: "Backend", items: "Node.js, Express.js" },
+    { id: "3", category: "Frontend", items: "React, TailwindCSS, HTML, CSS, Bootstrap" },
+    { id: "4", category: "Databases", items: "SQL, MongoDB" },
+    { id: "5", category: "Developer Tools", items: "VS Code, GitHub" },
+    { id: "6", category: "Areas of Interest", items: "Algorithms and Data Structures, Full Stack Web Development, Competitive Programming" },
+  ],
+  achievements: [
+    "Microsoft SDE intern interview finalist",
+    "Solved 300+ problems on Leetcode with a contest rating of 1506 with constant participation.",
+    "Flipkart runway certificate of participation.",
+  ],
+  positions: [
+    {
+      id: "1",
+      title: "Technical team member",
+      organization: "Science and Environmental Club (NIT Patna)",
+      date: "2023-present",
+    },
+    {
+      id: "2",
+      title: "Content team member",
+      organization: "Science and Environmental Club (NIT Patna)",
+      date: "2023-present",
+    },
+  ],
 };

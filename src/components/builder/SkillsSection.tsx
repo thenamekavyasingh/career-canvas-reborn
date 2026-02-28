@@ -1,50 +1,37 @@
-import { useState } from "react";
 import { useResume } from "@/context/ResumeContext";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Plus, Trash2 } from "lucide-react";
 
 const SkillsSection = () => {
-  const { data, updateSkills } = useResume();
-  const [input, setInput] = useState("");
-
-  const addSkill = () => {
-    const skill = input.trim();
-    if (skill && !data.skills.includes(skill)) {
-      updateSkills([...data.skills, skill]);
-      setInput("");
-    }
-  };
-
-  const removeSkill = (skill: string) => {
-    updateSkills(data.skills.filter((s) => s !== skill));
-  };
+  const { data, addSkill, updateSkill, removeSkill } = useResume();
 
   return (
     <div className="space-y-4">
-      <h3 className="font-display text-lg font-semibold text-foreground">Skills</h3>
-      <div className="flex gap-2">
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addSkill())}
-          placeholder="Type a skill and press Enter"
-          className="bg-secondary/50 border-border"
-        />
+      <div className="flex items-center justify-between">
+        <h3 className="font-display text-lg font-semibold text-foreground">Skills</h3>
+        <Button variant="outline" size="sm" onClick={addSkill} className="text-xs gap-1">
+          <Plus className="w-3.5 h-3.5" /> Add
+        </Button>
       </div>
-      <div className="flex flex-wrap gap-2">
-        {data.skills.map((skill) => (
-          <Badge
-            key={skill}
-            variant="secondary"
-            className="px-3 py-1.5 text-sm gap-1.5 cursor-pointer hover:bg-destructive/10 transition-colors"
-            onClick={() => removeSkill(skill)}
-          >
-            {skill}
-            <X className="w-3 h-3" />
-          </Badge>
-        ))}
-      </div>
+      {data.skills.map((skill) => (
+        <div key={skill.id} className="flex gap-3 items-start group">
+          <div className="grid grid-cols-3 gap-3 flex-1">
+            <div className="space-y-1">
+              <Label className="text-muted-foreground text-xs uppercase tracking-wider">Category</Label>
+              <Input value={skill.category} onChange={(e) => updateSkill(skill.id, "category", e.target.value)} className="bg-secondary/50 border-border" />
+            </div>
+            <div className="col-span-2 space-y-1">
+              <Label className="text-muted-foreground text-xs uppercase tracking-wider">Items (comma separated)</Label>
+              <Input value={skill.items} onChange={(e) => updateSkill(skill.id, "items", e.target.value)} className="bg-secondary/50 border-border" />
+            </div>
+          </div>
+          <button onClick={() => removeSkill(skill.id)} className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity mt-7">
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      ))}
     </div>
   );
 };
