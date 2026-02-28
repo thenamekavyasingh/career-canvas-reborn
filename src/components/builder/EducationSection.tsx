@@ -17,10 +17,7 @@ const EducationSection = () => {
       </div>
       {data.education.map((edu) => (
         <div key={edu.id} className="bg-secondary/30 rounded-xl p-4 space-y-3 border border-border/50 relative group">
-          <button
-            onClick={() => removeEducation(edu.id)}
-            className="absolute top-3 right-3 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
-          >
+          <button onClick={() => removeEducation(edu.id)} className="absolute top-3 right-3 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity">
             <Trash2 className="w-4 h-4" />
           </button>
           <div className="grid grid-cols-2 gap-3">
@@ -33,12 +30,16 @@ const EducationSection = () => {
               <Input value={edu.degree} onChange={(e) => updateEducation(edu.id, "degree", e.target.value)} className="bg-card border-border" />
             </div>
             <div className="space-y-1">
-              <Label className="text-muted-foreground text-xs uppercase tracking-wider">Start Date</Label>
-              <Input value={edu.startDate} onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)} placeholder="YYYY-MM" className="bg-card border-border" />
+              <Label className="text-muted-foreground text-xs uppercase tracking-wider">Start</Label>
+              <Input value={edu.startDate} onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)} className="bg-card border-border" />
             </div>
             <div className="space-y-1">
-              <Label className="text-muted-foreground text-xs uppercase tracking-wider">End Date</Label>
-              <Input value={edu.endDate} onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)} placeholder="YYYY-MM" className="bg-card border-border" />
+              <Label className="text-muted-foreground text-xs uppercase tracking-wider">End</Label>
+              <Input value={edu.endDate} onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)} className="bg-card border-border" />
+            </div>
+            <div className="col-span-2 space-y-1">
+              <Label className="text-muted-foreground text-xs uppercase tracking-wider">Grade / CGPA</Label>
+              <Input value={edu.grade} onChange={(e) => updateEducation(edu.id, "grade", e.target.value)} className="bg-card border-border" />
             </div>
           </div>
         </div>

@@ -4,13 +4,20 @@ import { ResumeData, defaultResumeData } from "@/types/resume";
 interface ResumeContextType {
   data: ResumeData;
   updatePersonal: (field: keyof ResumeData["personal"], value: string) => void;
-  addExperience: () => void;
-  updateExperience: (id: string, field: string, value: string) => void;
-  removeExperience: (id: string) => void;
   addEducation: () => void;
   updateEducation: (id: string, field: string, value: string) => void;
   removeEducation: (id: string) => void;
-  updateSkills: (skills: string[]) => void;
+  addProject: () => void;
+  updateProject: (id: string, field: string, value: string) => void;
+  updateProjectBullets: (id: string, bullets: string[]) => void;
+  removeProject: (id: string) => void;
+  addSkill: () => void;
+  updateSkill: (id: string, field: string, value: string) => void;
+  removeSkill: (id: string) => void;
+  updateAchievements: (achievements: string[]) => void;
+  addPosition: () => void;
+  updatePosition: (id: string, field: string, value: string) => void;
+  removePosition: (id: string) => void;
 }
 
 const ResumeContext = createContext<ResumeContextType | null>(null);
@@ -23,76 +30,68 @@ export const useResume = () => {
 
 export const ResumeProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<ResumeData>(() => {
-    const saved = localStorage.getItem("resume-data");
+    const saved = localStorage.getItem("resume-data-v2");
     return saved ? JSON.parse(saved) : defaultResumeData;
   });
 
   useEffect(() => {
-    localStorage.setItem("resume-data", JSON.stringify(data));
+    localStorage.setItem("resume-data-v2", JSON.stringify(data));
   }, [data]);
 
-  const updatePersonal = (field: keyof ResumeData["personal"], value: string) => {
-    setData((prev) => ({ ...prev, personal: { ...prev.personal, [field]: value } }));
-  };
+  const updatePersonal = (field: keyof ResumeData["personal"], value: string) =>
+    setData((p) => ({ ...p, personal: { ...p.personal, [field]: value } }));
 
-  const addExperience = () => {
-    setData((prev) => ({
-      ...prev,
-      experience: [
-        ...prev.experience,
-        { id: Date.now().toString(), company: "", role: "", startDate: "", endDate: "", description: "" },
-      ],
+  const addEducation = () =>
+    setData((p) => ({
+      ...p,
+      education: [...p.education, { id: Date.now().toString(), institution: "", degree: "", startDate: "", endDate: "", grade: "" }],
     }));
-  };
+  const updateEducation = (id: string, field: string, value: string) =>
+    setData((p) => ({ ...p, education: p.education.map((e) => (e.id === id ? { ...e, [field]: value } : e)) }));
+  const removeEducation = (id: string) =>
+    setData((p) => ({ ...p, education: p.education.filter((e) => e.id !== id) }));
 
-  const updateExperience = (id: string, field: string, value: string) => {
-    setData((prev) => ({
-      ...prev,
-      experience: prev.experience.map((e) => (e.id === id ? { ...e, [field]: value } : e)),
+  const addProject = () =>
+    setData((p) => ({
+      ...p,
+      projects: [...p.projects, { id: Date.now().toString(), title: "", subtitle: "", date: "", sourceLink: "", liveLink: "", bullets: [""], techStack: "" }],
     }));
-  };
+  const updateProject = (id: string, field: string, value: string) =>
+    setData((p) => ({ ...p, projects: p.projects.map((e) => (e.id === id ? { ...e, [field]: value } : e)) }));
+  const updateProjectBullets = (id: string, bullets: string[]) =>
+    setData((p) => ({ ...p, projects: p.projects.map((e) => (e.id === id ? { ...e, bullets } : e)) }));
+  const removeProject = (id: string) =>
+    setData((p) => ({ ...p, projects: p.projects.filter((e) => e.id !== id) }));
 
-  const removeExperience = (id: string) => {
-    setData((prev) => ({ ...prev, experience: prev.experience.filter((e) => e.id !== id) }));
-  };
+  const addSkill = () =>
+    setData((p) => ({ ...p, skills: [...p.skills, { id: Date.now().toString(), category: "", items: "" }] }));
+  const updateSkill = (id: string, field: string, value: string) =>
+    setData((p) => ({ ...p, skills: p.skills.map((e) => (e.id === id ? { ...e, [field]: value } : e)) }));
+  const removeSkill = (id: string) =>
+    setData((p) => ({ ...p, skills: p.skills.filter((e) => e.id !== id) }));
 
-  const addEducation = () => {
-    setData((prev) => ({
-      ...prev,
-      education: [
-        ...prev.education,
-        { id: Date.now().toString(), institution: "", degree: "", startDate: "", endDate: "" },
-      ],
+  const updateAchievements = (achievements: string[]) =>
+    setData((p) => ({ ...p, achievements }));
+
+  const addPosition = () =>
+    setData((p) => ({
+      ...p,
+      positions: [...p.positions, { id: Date.now().toString(), title: "", organization: "", date: "" }],
     }));
-  };
-
-  const updateEducation = (id: string, field: string, value: string) => {
-    setData((prev) => ({
-      ...prev,
-      education: prev.education.map((e) => (e.id === id ? { ...e, [field]: value } : e)),
-    }));
-  };
-
-  const removeEducation = (id: string) => {
-    setData((prev) => ({ ...prev, education: prev.education.filter((e) => e.id !== id) }));
-  };
-
-  const updateSkills = (skills: string[]) => {
-    setData((prev) => ({ ...prev, skills }));
-  };
+  const updatePosition = (id: string, field: string, value: string) =>
+    setData((p) => ({ ...p, positions: p.positions.map((e) => (e.id === id ? { ...e, [field]: value } : e)) }));
+  const removePosition = (id: string) =>
+    setData((p) => ({ ...p, positions: p.positions.filter((e) => e.id !== id) }));
 
   return (
     <ResumeContext.Provider
       value={{
-        data,
-        updatePersonal,
-        addExperience,
-        updateExperience,
-        removeExperience,
-        addEducation,
-        updateEducation,
-        removeEducation,
-        updateSkills,
+        data, updatePersonal,
+        addEducation, updateEducation, removeEducation,
+        addProject, updateProject, updateProjectBullets, removeProject,
+        addSkill, updateSkill, removeSkill,
+        updateAchievements,
+        addPosition, updatePosition, removePosition,
       }}
     >
       {children}
