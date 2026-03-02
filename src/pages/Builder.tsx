@@ -7,6 +7,7 @@ import ProjectsSection from "@/components/builder/ProjectsSection";
 import SkillsSection from "@/components/builder/SkillsSection";
 import AchievementsSection from "@/components/builder/AchievementsSection";
 import PositionsSection from "@/components/builder/PositionsSection";
+import TemplateSelector from "@/components/builder/TemplateSelector";
 import ResumePreview from "@/components/builder/ResumePreview";
 import { ArrowLeft, Download } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -53,6 +54,8 @@ const BuilderContent = () => {
         <div className="w-[440px] shrink-0 border-r border-border">
           <ScrollArea className="h-full">
             <div className="p-6 space-y-6">
+              <TemplateSelector />
+              <Separator />
               <PersonalSection />
               <Separator />
               <EducationSection />

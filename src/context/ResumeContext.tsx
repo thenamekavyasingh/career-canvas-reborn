@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { ResumeData, defaultResumeData } from "@/types/resume";
+import { ResumeData, TemplateType, defaultResumeData } from "@/types/resume";
 
 interface ResumeContextType {
   data: ResumeData;
@@ -18,6 +18,8 @@ interface ResumeContextType {
   addPosition: () => void;
   updatePosition: (id: string, field: string, value: string) => void;
   removePosition: (id: string) => void;
+  setTemplate: (template: TemplateType) => void;
+  setLogoUrl: (url: string | null) => void;
 }
 
 const ResumeContext = createContext<ResumeContextType | null>(null);
@@ -31,7 +33,11 @@ export const useResume = () => {
 export const ResumeProvider = ({ children }: { children: ReactNode }) => {
   const [data, setData] = useState<ResumeData>(() => {
     const saved = localStorage.getItem("resume-data-v2");
-    return saved ? JSON.parse(saved) : defaultResumeData;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return { ...defaultResumeData, ...parsed, template: parsed.template || "classic", logoUrl: parsed.logoUrl || null };
+    }
+    return defaultResumeData;
   });
 
   useEffect(() => {
@@ -83,6 +89,12 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
   const removePosition = (id: string) =>
     setData((p) => ({ ...p, positions: p.positions.filter((e) => e.id !== id) }));
 
+  const setTemplate = (template: TemplateType) =>
+    setData((p) => ({ ...p, template }));
+
+  const setLogoUrl = (url: string | null) =>
+    setData((p) => ({ ...p, logoUrl: url }));
+
   return (
     <ResumeContext.Provider
       value={{
@@ -92,6 +104,7 @@ export const ResumeProvider = ({ children }: { children: ReactNode }) => {
         addSkill, updateSkill, removeSkill,
         updateAchievements,
         addPosition, updatePosition, removePosition,
+        setTemplate, setLogoUrl,
       }}
     >
       {children}
