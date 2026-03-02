@@ -1,3 +1,5 @@
+export type TemplateType = "classic" | "table" | "modern";
+
 export interface ResumeData {
   personal: {
     name: string;
@@ -40,6 +42,8 @@ export interface ResumeData {
     organization: string;
     date: string;
   }[];
+  template: TemplateType;
+  logoUrl: string | null;
 }
 
 export const defaultResumeData: ResumeData = {
@@ -139,4 +143,6 @@ export const defaultResumeData: ResumeData = {
       date: "2023-present",
     },
   ],
+  template: "classic",
+  logoUrl: null,
 };
