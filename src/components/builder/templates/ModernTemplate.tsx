@@ -2,17 +2,17 @@ import { ResumeData } from "@/types/resume";
 import { Phone, Mail, Globe } from "lucide-react";
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ marginBottom: "2px", marginTop: "1px" }}>
+  <div style={{ marginBottom: "4px", marginTop: "8px" }}>
     <h2
       style={{
-        fontSize: "10.5px",
+        fontSize: "11px",
         fontWeight: 700,
         textTransform: "uppercase",
-        letterSpacing: "0.08em",
-        borderBottom: "1.5px solid #2c3e50",
-        paddingBottom: "1px",
+        letterSpacing: "0.1em",
+        borderBottom: "2px solid #2c3e50",
+        paddingBottom: "2px",
         color: "#2c3e50",
-        fontFamily: "'Times New Roman', Georgia, serif",
+        fontFamily: "'Times New Roman', 'CMU Serif', Georgia, serif",
       }}
     >
       {children}
@@ -26,37 +26,33 @@ const ModernTemplate = ({ data }: { data: ResumeData }) => {
   return (
     <div
       style={{
-        fontFamily: "'Times New Roman', Georgia, serif",
-        fontSize: "10px",
-        lineHeight: "1.3",
+        fontFamily: "'Times New Roman', 'CMU Serif', Georgia, serif",
+        fontSize: "10.5px",
+        lineHeight: "1.45",
         color: "#1a1a1a",
       }}
     >
       {/* Header */}
-      <div style={{ borderBottom: "2px solid #2c3e50", paddingBottom: "4px", marginBottom: "4px" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+      <div style={{ borderBottom: "2.5px solid #2c3e50", paddingBottom: "6px", marginBottom: "4px" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
           {data.logoUrl && (
-            <img
-              src={data.logoUrl}
-              alt="Logo"
-              style={{ width: "48px", height: "48px", objectFit: "contain" }}
-            />
+            <img src={data.logoUrl} alt="Logo" style={{ width: "50px", height: "50px", objectFit: "contain" }} />
           )}
           <div style={{ flex: 1 }}>
             <h1
               style={{
-                fontSize: "19px",
+                fontSize: "20px",
                 fontWeight: 700,
                 color: "#2c3e50",
-                fontFamily: "'Times New Roman', Georgia, serif",
-                marginBottom: "1px",
+                fontFamily: "'Times New Roman', 'CMU Serif', Georgia, serif",
+                marginBottom: "2px",
                 lineHeight: "1.2",
               }}
             >
               {personal.name || "Your Name"}
             </h1>
             {personal.title && (
-              <p style={{ fontSize: "10px", color: "#555", marginBottom: "2px" }}>{personal.title}</p>
+              <p style={{ fontSize: "11px", color: "#555", marginBottom: "2px" }}>{personal.title}</p>
             )}
           </div>
         </div>
@@ -64,35 +60,35 @@ const ModernTemplate = ({ data }: { data: ResumeData }) => {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "10px",
-            fontSize: "9px",
+            gap: "12px",
+            fontSize: "9.5px",
             flexWrap: "wrap",
-            marginTop: "2px",
+            marginTop: "4px",
           }}
         >
           {personal.phone && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
-              <Phone style={{ width: "7px", height: "7px" }} /> {personal.phone}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
+              <Phone style={{ width: "8px", height: "8px" }} /> {personal.phone}
             </span>
           )}
           {personal.email && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "2px" }}>
-              <Mail style={{ width: "7px", height: "7px" }} /> {personal.email}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
+              <Mail style={{ width: "8px", height: "8px" }} /> {personal.email}
             </span>
           )}
           {personal.linkedin && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", color: "#0066cc" }}>
-              <Globe style={{ width: "7px", height: "7px" }} /> {personal.linkedin}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px", color: "#0066cc" }}>
+              <Globe style={{ width: "8px", height: "8px" }} /> {personal.linkedin}
             </span>
           )}
           {personal.github && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", color: "#0066cc" }}>
-              <Globe style={{ width: "7px", height: "7px" }} /> {personal.github}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px", color: "#0066cc" }}>
+              <Globe style={{ width: "8px", height: "8px" }} /> {personal.github}
             </span>
           )}
           {personal.leetcode && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", color: "#0066cc" }}>
-              <Globe style={{ width: "7px", height: "7px" }} /> {personal.leetcode}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px", color: "#0066cc" }}>
+              <Globe style={{ width: "8px", height: "8px" }} /> {personal.leetcode}
             </span>
           )}
         </div>
@@ -100,17 +96,17 @@ const ModernTemplate = ({ data }: { data: ResumeData }) => {
 
       {/* Education */}
       {education.length > 0 && (
-        <div style={{ marginTop: "3px" }}>
+        <div>
           <SectionTitle>Education</SectionTitle>
-          {education.map((edu) => (
-            <div key={edu.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2px", paddingLeft: "2px" }}>
+          {education.map((edu, idx) => (
+            <div key={edu.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: idx < education.length - 1 ? "4px" : "0", paddingLeft: "2px" }}>
               <div>
-                <p style={{ fontWeight: 700, fontSize: "10px" }}>{edu.institution}</p>
-                <p style={{ fontStyle: "italic", fontSize: "9.5px", color: "#444" }}>{edu.degree}</p>
+                <p style={{ fontWeight: 700, fontSize: "10.5px" }}>{edu.institution}</p>
+                <p style={{ fontStyle: "italic", fontSize: "10px", color: "#444" }}>{edu.degree}</p>
               </div>
-              <div style={{ textAlign: "right", flexShrink: 0, marginLeft: "12px" }}>
-                <p style={{ fontSize: "9.5px", fontWeight: 600 }}>{edu.startDate} – {edu.endDate}</p>
-                <p style={{ fontSize: "9px", color: "#555" }}>{edu.grade}</p>
+              <div style={{ textAlign: "right", flexShrink: 0, marginLeft: "16px" }}>
+                <p style={{ fontSize: "10px", fontWeight: 600 }}>{edu.startDate} – {edu.endDate}</p>
+                <p style={{ fontSize: "10px", color: "#555" }}>{edu.grade}</p>
               </div>
             </div>
           ))}
@@ -119,30 +115,30 @@ const ModernTemplate = ({ data }: { data: ResumeData }) => {
 
       {/* Projects */}
       {projects.length > 0 && (
-        <div style={{ marginTop: "3px" }}>
+        <div>
           <SectionTitle>Projects</SectionTitle>
-          {projects.map((proj) => (
-            <div key={proj.id} style={{ marginBottom: "4px", paddingLeft: "2px" }}>
+          {projects.map((proj, idx) => (
+            <div key={proj.id} style={{ marginBottom: idx < projects.length - 1 ? "6px" : "0", paddingLeft: "2px" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                <p style={{ fontWeight: 700, fontSize: "10px" }}>
+                <p style={{ fontWeight: 700, fontSize: "10.5px" }}>
                   {proj.title}
                   {(proj.sourceLink || proj.liveLink) && (
-                    <span style={{ fontWeight: 400, marginLeft: "6px", fontSize: "9px" }}>
+                    <span style={{ fontWeight: 400, marginLeft: "6px", fontSize: "9.5px" }}>
                       {proj.sourceLink && <span style={{ color: "#0066cc" }}>{proj.sourceLink}</span>}
-                      {proj.sourceLink && proj.liveLink && <span style={{ margin: "0 3px" }}>|</span>}
+                      {proj.sourceLink && proj.liveLink && <span style={{ margin: "0 4px" }}>|</span>}
                       {proj.liveLink && <span style={{ color: "#0066cc" }}>{proj.liveLink}</span>}
                     </span>
                   )}
                 </p>
-                {proj.date && <p style={{ fontSize: "9px", flexShrink: 0, marginLeft: "12px", color: "#555" }}>{proj.date}</p>}
+                {proj.date && <p style={{ fontSize: "9.5px", flexShrink: 0, marginLeft: "16px", color: "#555" }}>{proj.date}</p>}
               </div>
-              <ul style={{ listStyleType: "disc", paddingLeft: "14px", margin: "1px 0 0 0" }}>
+              <ul style={{ listStyleType: "disc", paddingLeft: "16px", margin: "2px 0 0 0" }}>
                 {proj.bullets.filter(Boolean).map((b, i) => (
-                  <li key={i} style={{ fontSize: "9.5px", lineHeight: "1.3" }}>{b}</li>
+                  <li key={i} style={{ fontSize: "10px", lineHeight: "1.45" }}>{b}</li>
                 ))}
               </ul>
               {proj.techStack && (
-                <p style={{ fontSize: "9px", marginTop: "1px", paddingLeft: "2px" }}>
+                <p style={{ fontSize: "9.5px", marginTop: "2px", paddingLeft: "2px" }}>
                   <span style={{ fontWeight: 700, color: "#2c3e50" }}>Tech:</span> {proj.techStack}
                 </p>
               )}
@@ -153,11 +149,11 @@ const ModernTemplate = ({ data }: { data: ResumeData }) => {
 
       {/* Skills */}
       {skills.length > 0 && (
-        <div style={{ marginTop: "3px" }}>
+        <div>
           <SectionTitle>Skills</SectionTitle>
           <div style={{ paddingLeft: "2px" }}>
             {skills.map((s) => (
-              <p key={s.id} style={{ fontSize: "9.5px", lineHeight: "1.35" }}>
+              <p key={s.id} style={{ fontSize: "10px", lineHeight: "1.5", marginBottom: "1px" }}>
                 <span style={{ fontWeight: 700 }}>{s.category}:</span> {s.items}
               </p>
             ))}
@@ -167,11 +163,11 @@ const ModernTemplate = ({ data }: { data: ResumeData }) => {
 
       {/* Achievements */}
       {achievements.length > 0 && (
-        <div style={{ marginTop: "3px" }}>
+        <div>
           <SectionTitle>Achievements</SectionTitle>
-          <ul style={{ listStyleType: "disc", paddingLeft: "14px", margin: 0 }}>
+          <ul style={{ listStyleType: "disc", paddingLeft: "16px", margin: 0 }}>
             {achievements.filter(Boolean).map((a, i) => (
-              <li key={i} style={{ fontSize: "9.5px", lineHeight: "1.35" }}>{a}</li>
+              <li key={i} style={{ fontSize: "10px", lineHeight: "1.5", marginBottom: "2px" }}>{a}</li>
             ))}
           </ul>
         </div>
@@ -179,15 +175,15 @@ const ModernTemplate = ({ data }: { data: ResumeData }) => {
 
       {/* Positions */}
       {positions.length > 0 && (
-        <div style={{ marginTop: "3px" }}>
+        <div>
           <SectionTitle>Positions of Responsibility</SectionTitle>
-          {positions.map((pos) => (
-            <div key={pos.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1px", paddingLeft: "2px" }}>
+          {positions.map((pos, idx) => (
+            <div key={pos.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: idx < positions.length - 1 ? "3px" : "0", paddingLeft: "2px" }}>
               <div>
-                <p style={{ fontWeight: 700, fontSize: "10px" }}>{pos.title}</p>
-                <p style={{ fontStyle: "italic", fontSize: "9.5px", color: "#444" }}>{pos.organization}</p>
+                <p style={{ fontWeight: 700, fontSize: "10.5px" }}>{pos.title}</p>
+                <p style={{ fontStyle: "italic", fontSize: "10px", color: "#444" }}>{pos.organization}</p>
               </div>
-              <p style={{ fontSize: "9px", flexShrink: 0, marginLeft: "12px", color: "#555" }}>{pos.date}</p>
+              <p style={{ fontSize: "9.5px", flexShrink: 0, marginLeft: "16px", color: "#555" }}>{pos.date}</p>
             </div>
           ))}
         </div>
