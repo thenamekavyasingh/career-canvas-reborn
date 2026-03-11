@@ -1,17 +1,19 @@
 import { ResumeData } from "@/types/resume";
-import { Phone, Mail, Globe } from "lucide-react";
+
+const FONT = "'Source Sans 3', 'Inter', 'Helvetica Neue', Arial, sans-serif";
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ marginBottom: "4px", marginTop: "8px" }}>
+  <div style={{ marginTop: "14px", marginBottom: "6px" }}>
     <h2
       style={{
-        fontSize: "11px",
+        fontSize: "13px",
         fontWeight: 700,
         textTransform: "uppercase",
-        letterSpacing: "0.1em",
-        borderBottom: "1.2px solid #000",
-        paddingBottom: "2px",
-        fontFamily: "'Times New Roman', 'CMU Serif', Georgia, serif",
+        letterSpacing: "0.12em",
+        borderBottom: "1px solid #000",
+        paddingBottom: "3px",
+        fontFamily: FONT,
+        color: "#000",
       }}
     >
       {children}
@@ -25,65 +27,71 @@ const ClassicTemplate = ({ data }: { data: ResumeData }) => {
   return (
     <div
       style={{
-        fontFamily: "'Times New Roman', 'CMU Serif', Georgia, serif",
+        fontFamily: FONT,
         fontSize: "10.5px",
-        lineHeight: "1.45",
+        lineHeight: "1.4",
         color: "#000",
       }}
     >
       {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: "4px" }}>
+      <div style={{ textAlign: "center", marginBottom: "2px" }}>
+        {data.logoUrl && (
+          <img
+            src={data.logoUrl}
+            alt="Logo"
+            style={{
+              width: "44px",
+              height: "44px",
+              objectFit: "contain",
+              margin: "0 auto 4px",
+              display: "block",
+            }}
+          />
+        )}
         <h1
           style={{
-            fontSize: "20px",
+            fontSize: "22px",
             fontWeight: 700,
-            letterSpacing: "1.5px",
-            fontFamily: "'Times New Roman', 'CMU Serif', Georgia, serif",
-            marginBottom: "2px",
+            fontFamily: FONT,
+            marginBottom: "1px",
             lineHeight: "1.2",
+            letterSpacing: "0.02em",
           }}
         >
           {personal.name || "Your Name"}
         </h1>
         {personal.title && (
-          <p style={{ fontSize: "11px", marginBottom: "3px", fontStyle: "italic" }}>{personal.title}</p>
+          <p style={{ fontSize: "11px", marginBottom: "4px", color: "#333" }}>
+            {personal.title}
+          </p>
         )}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "12px",
-            fontSize: "9.5px",
+            gap: "0",
+            fontSize: "10px",
             flexWrap: "wrap",
-            lineHeight: "1.5",
+            color: "#333",
           }}
         >
-          {personal.phone && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
-              <Phone style={{ width: "8px", height: "8px" }} /> {personal.phone}
-            </span>
-          )}
-          {personal.email && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
-              <Mail style={{ width: "8px", height: "8px" }} /> {personal.email}
-            </span>
-          )}
-          {personal.linkedin && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
-              <Globe style={{ width: "8px", height: "8px" }} /> {personal.linkedin}
-            </span>
-          )}
-          {personal.github && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
-              <Globe style={{ width: "8px", height: "8px" }} /> {personal.github}
-            </span>
-          )}
-          {personal.leetcode && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
-              <Globe style={{ width: "8px", height: "8px" }} /> {personal.leetcode}
-            </span>
-          )}
+          {[
+            personal.phone,
+            personal.email,
+            personal.linkedin,
+            personal.github,
+            personal.leetcode,
+          ]
+            .filter(Boolean)
+            .map((item, i, arr) => (
+              <span key={i} style={{ display: "inline-flex", alignItems: "center" }}>
+                {item}
+                {i < arr.length - 1 && (
+                  <span style={{ margin: "0 6px", color: "#888" }}>|</span>
+                )}
+              </span>
+            ))}
         </div>
       </div>
 
@@ -92,14 +100,26 @@ const ClassicTemplate = ({ data }: { data: ResumeData }) => {
         <div>
           <SectionTitle>Education</SectionTitle>
           {education.map((edu, idx) => (
-            <div key={edu.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: idx < education.length - 1 ? "4px" : "0" }}>
+            <div
+              key={edu.id}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                marginBottom: idx < education.length - 1 ? "6px" : "0",
+              }}
+            >
               <div>
-                <p style={{ fontWeight: 700, fontSize: "10.5px" }}>• {edu.institution}</p>
-                <p style={{ fontStyle: "italic", fontSize: "10px", paddingLeft: "10px" }}>{edu.degree}</p>
+                <p style={{ fontWeight: 700, fontSize: "10.5px" }}>{edu.degree}</p>
+                <p style={{ fontSize: "10px", color: "#444", fontStyle: "italic" }}>
+                  {edu.institution}
+                </p>
               </div>
               <div style={{ textAlign: "right", flexShrink: 0, marginLeft: "16px" }}>
-                <p style={{ fontSize: "10px" }}>{edu.endDate}</p>
-                <p style={{ fontStyle: "italic", fontSize: "10px" }}>{edu.grade}</p>
+                <p style={{ fontSize: "10px", fontWeight: 600 }}>
+                  {edu.startDate} – {edu.endDate}
+                </p>
+                <p style={{ fontSize: "10px", color: "#444" }}>{edu.grade}</p>
               </div>
             </div>
           ))}
@@ -109,33 +129,70 @@ const ClassicTemplate = ({ data }: { data: ResumeData }) => {
       {/* Projects */}
       {projects.length > 0 && (
         <div>
-          <SectionTitle>Personal Projects</SectionTitle>
+          <SectionTitle>Projects</SectionTitle>
           {projects.map((proj, idx) => (
-            <div key={proj.id} style={{ marginBottom: idx < projects.length - 1 ? "6px" : "0" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <div
+              key={proj.id}
+              style={{ marginBottom: idx < projects.length - 1 ? "8px" : "0" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                }}
+              >
                 <p style={{ fontWeight: 700, fontSize: "10.5px" }}>
-                  • {proj.title}
+                  {proj.title}
                   {(proj.sourceLink || proj.liveLink) && (
-                    <span style={{ fontWeight: 400, marginLeft: "6px", fontSize: "9.5px" }}>
-                      {proj.sourceLink && <span style={{ color: "#0066cc", fontStyle: "italic" }}>{proj.sourceLink}</span>}
-                      {proj.sourceLink && proj.liveLink && <span style={{ margin: "0 4px" }}>·</span>}
-                      {proj.liveLink && <span style={{ color: "#0066cc", fontStyle: "italic" }}>{proj.liveLink}</span>}
+                    <span
+                      style={{
+                        fontWeight: 400,
+                        marginLeft: "8px",
+                        fontSize: "10px",
+                        color: "#0055aa",
+                      }}
+                    >
+                      {proj.sourceLink && <span>{proj.sourceLink}</span>}
+                      {proj.sourceLink && proj.liveLink && (
+                        <span style={{ margin: "0 4px", color: "#888" }}>|</span>
+                      )}
+                      {proj.liveLink && <span>{proj.liveLink}</span>}
                     </span>
                   )}
                 </p>
-                {proj.date && <p style={{ fontSize: "9.5px", flexShrink: 0, marginLeft: "16px", fontStyle: "italic" }}>{proj.date}</p>}
+                {proj.date && (
+                  <p
+                    style={{
+                      fontSize: "10px",
+                      flexShrink: 0,
+                      marginLeft: "16px",
+                      color: "#444",
+                    }}
+                  >
+                    {proj.date}
+                  </p>
+                )}
               </div>
-              {proj.subtitle && (
-                <p style={{ fontSize: "9.5px", fontStyle: "italic", paddingLeft: "10px" }}>{proj.subtitle}</p>
-              )}
-              <ul style={{ listStyleType: "none", paddingLeft: "10px", margin: "2px 0 0 0" }}>
+              <ul
+                style={{
+                  listStyleType: "disc",
+                  paddingLeft: "18px",
+                  margin: "3px 0 0 0",
+                }}
+              >
                 {proj.bullets.filter(Boolean).map((b, i) => (
-                  <li key={i} style={{ fontSize: "10px", lineHeight: "1.45" }}>– {b}</li>
+                  <li
+                    key={i}
+                    style={{ fontSize: "10px", lineHeight: "1.4", marginBottom: "2px" }}
+                  >
+                    {b}
+                  </li>
                 ))}
               </ul>
               {proj.techStack && (
-                <p style={{ fontSize: "9.5px", paddingLeft: "10px", marginTop: "2px" }}>
-                  <span style={{ fontWeight: 600 }}>Tech Stack:</span> {proj.techStack}
+                <p style={{ fontSize: "10px", marginTop: "2px", paddingLeft: "18px" }}>
+                  <span style={{ fontWeight: 700 }}>Tech Stack:</span> {proj.techStack}
                 </p>
               )}
             </div>
@@ -147,23 +204,43 @@ const ClassicTemplate = ({ data }: { data: ResumeData }) => {
       {skills.length > 0 && (
         <div>
           <SectionTitle>Technical Skills</SectionTitle>
-          <div style={{ paddingLeft: "2px" }}>
-            {skills.map((s) => (
-              <p key={s.id} style={{ fontSize: "10px", lineHeight: "1.5", marginBottom: "1px" }}>
-                <span style={{ fontWeight: 700 }}>{s.category}:</span> {s.items}
-              </p>
-            ))}
-          </div>
+          {skills.map((s) => (
+            <p
+              key={s.id}
+              style={{
+                fontSize: "10px",
+                lineHeight: "1.5",
+                marginBottom: "1px",
+              }}
+            >
+              <span style={{ fontWeight: 700 }}>{s.category}:</span> {s.items}
+            </p>
+          ))}
         </div>
       )}
 
       {/* Achievements */}
-      {achievements.length > 0 && (
+      {achievements.filter(Boolean).length > 0 && (
         <div>
           <SectionTitle>Achievements</SectionTitle>
-          <ul style={{ listStyleType: "none", paddingLeft: "0", margin: 0 }}>
+          <ul
+            style={{
+              listStyleType: "disc",
+              paddingLeft: "18px",
+              margin: 0,
+            }}
+          >
             {achievements.filter(Boolean).map((a, i) => (
-              <li key={i} style={{ fontSize: "10px", lineHeight: "1.5", marginBottom: "2px" }}>• {a}</li>
+              <li
+                key={i}
+                style={{
+                  fontSize: "10px",
+                  lineHeight: "1.45",
+                  marginBottom: "3px",
+                }}
+              >
+                {a}
+              </li>
             ))}
           </ul>
         </div>
@@ -174,11 +251,29 @@ const ClassicTemplate = ({ data }: { data: ResumeData }) => {
         <div>
           <SectionTitle>Positions of Responsibility</SectionTitle>
           {positions.map((pos, idx) => (
-            <div key={pos.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: idx < positions.length - 1 ? "3px" : "0" }}>
+            <div
+              key={pos.id}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                marginBottom: idx < positions.length - 1 ? "4px" : "0",
+              }}
+            >
               <p style={{ fontSize: "10px" }}>
-                • <span style={{ fontWeight: 700 }}>{pos.title}</span> — {pos.organization}
+                <span style={{ fontWeight: 700 }}>{pos.title}</span>
+                <span style={{ color: "#444" }}> — {pos.organization}</span>
               </p>
-              <p style={{ fontSize: "9.5px", flexShrink: 0, marginLeft: "16px", fontStyle: "italic" }}>{pos.date}</p>
+              <p
+                style={{
+                  fontSize: "10px",
+                  flexShrink: 0,
+                  marginLeft: "16px",
+                  color: "#444",
+                }}
+              >
+                {pos.date}
+              </p>
             </div>
           ))}
         </div>
