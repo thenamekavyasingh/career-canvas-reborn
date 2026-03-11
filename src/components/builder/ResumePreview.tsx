@@ -25,7 +25,7 @@ const ResumePreview = () => {
       style={{
         width: "210mm",
         minHeight: "297mm",
-        padding: "8mm 10mm",
+        padding: "10mm 12mm",
       }}
     >
       {renderTemplate()}
