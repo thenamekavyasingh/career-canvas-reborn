@@ -1,23 +1,207 @@
 import { ResumeData } from "@/types/resume";
 
-const FONT = "'Source Sans 3', 'Inter', 'Helvetica Neue', Arial, sans-serif";
+const FONT = "'Times New Roman', 'Computer Modern', 'CMU Serif', serif";
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ marginTop: "14px", marginBottom: "6px" }}>
+  <div style={{ marginTop: "10px", marginBottom: "4px" }}>
     <h2
       style={{
         fontSize: "13px",
         fontWeight: 700,
         textTransform: "uppercase",
-        letterSpacing: "0.12em",
+        letterSpacing: "0.06em",
         borderBottom: "1px solid #000",
-        paddingBottom: "3px",
+        paddingBottom: "2px",
         fontFamily: FONT,
         color: "#000",
+        margin: 0,
       }}
     >
       {children}
     </h2>
+  </div>
+);
+
+const BulletList = ({ items }: { items: string[] }) => (
+  <ul
+    style={{
+      listStyleType: "disc",
+      paddingLeft: "14px",
+      margin: "2px 0 0 0",
+    }}
+  >
+    {items.filter(Boolean).map((item, i) => (
+      <li
+        key={i}
+        style={{
+          fontSize: "10px",
+          lineHeight: "1.35",
+          marginBottom: "3px",
+          fontFamily: FONT,
+        }}
+      >
+        {item}
+      </li>
+    ))}
+  </ul>
+);
+
+const EducationEntry = ({ edu, isLast }: { edu: ResumeData["education"][0]; isLast: boolean }) => (
+  <div
+    style={{
+      marginBottom: isLast ? "0" : "6px",
+    }}
+  >
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+      <p style={{ fontWeight: 700, fontSize: "10.5px", fontFamily: FONT, margin: 0 }}>
+        {edu.institution}
+      </p>
+      <p style={{ fontSize: "10px", fontFamily: FONT, margin: 0, flexShrink: 0, marginLeft: "16px" }}>
+        {edu.startDate} – {edu.endDate}
+      </p>
+    </div>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+      <p style={{ fontSize: "10px", fontFamily: FONT, fontStyle: "italic", margin: 0, color: "#222" }}>
+        {edu.degree}
+      </p>
+      {edu.grade && (
+        <p style={{ fontSize: "10px", fontFamily: FONT, margin: 0, flexShrink: 0, marginLeft: "16px", color: "#222" }}>
+          {edu.grade}
+        </p>
+      )}
+    </div>
+  </div>
+);
+
+const ProjectBlock = ({ proj, isLast }: { proj: ResumeData["projects"][0]; isLast: boolean }) => (
+  <div style={{ marginBottom: isLast ? "0" : "6px" }}>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+      <p style={{ fontWeight: 700, fontSize: "10.5px", fontFamily: FONT, margin: 0 }}>
+        {proj.title}
+        {proj.subtitle && (
+          <span style={{ fontWeight: 400, fontStyle: "italic", marginLeft: "4px" }}>
+            ({proj.subtitle})
+          </span>
+        )}
+      </p>
+      {proj.date && (
+        <p style={{ fontSize: "10px", fontFamily: FONT, margin: 0, flexShrink: 0, marginLeft: "16px" }}>
+          {proj.date}
+        </p>
+      )}
+    </div>
+    {(proj.sourceLink || proj.liveLink) && (
+      <p style={{ fontSize: "10px", fontFamily: FONT, margin: "1px 0 0 0", color: "#0055aa" }}>
+        {proj.sourceLink && <span>{proj.sourceLink}</span>}
+        {proj.sourceLink && proj.liveLink && (
+          <span style={{ margin: "0 5px", color: "#888" }}>|</span>
+        )}
+        {proj.liveLink && <span>{proj.liveLink}</span>}
+      </p>
+    )}
+    <BulletList items={proj.bullets} />
+    {proj.techStack && (
+      <p style={{ fontSize: "10px", fontFamily: FONT, margin: "2px 0 0 14px" }}>
+        <span style={{ fontWeight: 700 }}>Tech Stack:</span> {proj.techStack}
+      </p>
+    )}
+  </div>
+);
+
+const SkillGroup = ({ skill }: { skill: ResumeData["skills"][0] }) => (
+  <p
+    style={{
+      fontSize: "10px",
+      lineHeight: "1.45",
+      marginBottom: "2px",
+      fontFamily: FONT,
+      margin: 0,
+    }}
+  >
+    <span style={{ fontWeight: 700 }}>{skill.category}:</span> {skill.items}
+  </p>
+);
+
+const PORItem = ({ pos, isLast }: { pos: ResumeData["positions"][0]; isLast: boolean }) => (
+  <div
+    style={{
+      marginBottom: isLast ? "0" : "4px",
+    }}
+  >
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+      <p style={{ fontSize: "10px", fontFamily: FONT, margin: 0 }}>
+        <span style={{ fontWeight: 700 }}>{pos.title}</span>
+      </p>
+      <p style={{ fontSize: "10px", fontFamily: FONT, margin: 0, flexShrink: 0, marginLeft: "16px" }}>
+        {pos.date}
+      </p>
+    </div>
+    <p style={{ fontSize: "10px", fontFamily: FONT, margin: 0, color: "#222", fontStyle: "italic" }}>
+      {pos.organization}
+    </p>
+  </div>
+);
+
+const ResumeHeader = ({ personal, logoUrl }: { personal: ResumeData["personal"]; logoUrl: string | null }) => (
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-start",
+      marginBottom: "4px",
+      fontFamily: FONT,
+    }}
+  >
+    {/* Left: Logo + Name block */}
+    <div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+      {logoUrl && (
+        <img
+          src={logoUrl}
+          alt="Logo"
+          style={{
+            width: "48px",
+            height: "48px",
+            objectFit: "contain",
+            marginTop: "2px",
+          }}
+        />
+      )}
+      <div>
+        <h1
+          style={{
+            fontSize: "22px",
+            fontWeight: 700,
+            fontFamily: FONT,
+            margin: 0,
+            lineHeight: "1.2",
+          }}
+        >
+          {personal.name || "Your Name"}
+        </h1>
+        {personal.title && (
+          <p style={{ fontSize: "11px", margin: "2px 0 0 0", color: "#222" }}>
+            {personal.title}
+          </p>
+        )}
+      </div>
+    </div>
+
+    {/* Right: Contact info stacked */}
+    <div
+      style={{
+        textAlign: "right",
+        fontSize: "10px",
+        lineHeight: "1.55",
+        color: "#222",
+        flexShrink: 0,
+      }}
+    >
+      {[personal.phone, personal.email, personal.leetcode, personal.linkedin, personal.github]
+        .filter(Boolean)
+        .map((item, i) => (
+          <div key={i} style={{ fontFamily: FONT }}>{item}</div>
+        ))}
+    </div>
   </div>
 );
 
@@ -29,252 +213,53 @@ const ClassicTemplate = ({ data }: { data: ResumeData }) => {
       style={{
         fontFamily: FONT,
         fontSize: "10.5px",
-        lineHeight: "1.4",
+        lineHeight: "1.35",
         color: "#000",
       }}
     >
-      {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: "2px" }}>
-        {data.logoUrl && (
-          <img
-            src={data.logoUrl}
-            alt="Logo"
-            style={{
-              width: "44px",
-              height: "44px",
-              objectFit: "contain",
-              margin: "0 auto 4px",
-              display: "block",
-            }}
-          />
-        )}
-        <h1
-          style={{
-            fontSize: "22px",
-            fontWeight: 700,
-            fontFamily: FONT,
-            marginBottom: "1px",
-            lineHeight: "1.2",
-            letterSpacing: "0.02em",
-          }}
-        >
-          {personal.name || "Your Name"}
-        </h1>
-        {personal.title && (
-          <p style={{ fontSize: "11px", marginBottom: "4px", color: "#333" }}>
-            {personal.title}
-          </p>
-        )}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "0",
-            fontSize: "10px",
-            flexWrap: "wrap",
-            color: "#333",
-          }}
-        >
-          {[
-            personal.phone,
-            personal.email,
-            personal.linkedin,
-            personal.github,
-            personal.leetcode,
-          ]
-            .filter(Boolean)
-            .map((item, i, arr) => (
-              <span key={i} style={{ display: "inline-flex", alignItems: "center" }}>
-                {item}
-                {i < arr.length - 1 && (
-                  <span style={{ margin: "0 6px", color: "#888" }}>|</span>
-                )}
-              </span>
-            ))}
-        </div>
-      </div>
+      <ResumeHeader personal={personal} logoUrl={data.logoUrl} />
 
-      {/* Education */}
       {education.length > 0 && (
         <div>
           <SectionTitle>Education</SectionTitle>
           {education.map((edu, idx) => (
-            <div
-              key={edu.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                marginBottom: idx < education.length - 1 ? "6px" : "0",
-              }}
-            >
-              <div>
-                <p style={{ fontWeight: 700, fontSize: "10.5px" }}>{edu.degree}</p>
-                <p style={{ fontSize: "10px", color: "#444", fontStyle: "italic" }}>
-                  {edu.institution}
-                </p>
-              </div>
-              <div style={{ textAlign: "right", flexShrink: 0, marginLeft: "16px" }}>
-                <p style={{ fontSize: "10px", fontWeight: 600 }}>
-                  {edu.startDate} – {edu.endDate}
-                </p>
-                <p style={{ fontSize: "10px", color: "#444" }}>{edu.grade}</p>
-              </div>
-            </div>
+            <EducationEntry key={edu.id} edu={edu} isLast={idx === education.length - 1} />
           ))}
         </div>
       )}
 
-      {/* Projects */}
       {projects.length > 0 && (
         <div>
           <SectionTitle>Projects</SectionTitle>
           {projects.map((proj, idx) => (
-            <div
-              key={proj.id}
-              style={{ marginBottom: idx < projects.length - 1 ? "8px" : "0" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                }}
-              >
-                <p style={{ fontWeight: 700, fontSize: "10.5px" }}>
-                  {proj.title}
-                  {(proj.sourceLink || proj.liveLink) && (
-                    <span
-                      style={{
-                        fontWeight: 400,
-                        marginLeft: "8px",
-                        fontSize: "10px",
-                        color: "#0055aa",
-                      }}
-                    >
-                      {proj.sourceLink && <span>{proj.sourceLink}</span>}
-                      {proj.sourceLink && proj.liveLink && (
-                        <span style={{ margin: "0 4px", color: "#888" }}>|</span>
-                      )}
-                      {proj.liveLink && <span>{proj.liveLink}</span>}
-                    </span>
-                  )}
-                </p>
-                {proj.date && (
-                  <p
-                    style={{
-                      fontSize: "10px",
-                      flexShrink: 0,
-                      marginLeft: "16px",
-                      color: "#444",
-                    }}
-                  >
-                    {proj.date}
-                  </p>
-                )}
-              </div>
-              <ul
-                style={{
-                  listStyleType: "disc",
-                  paddingLeft: "18px",
-                  margin: "3px 0 0 0",
-                }}
-              >
-                {proj.bullets.filter(Boolean).map((b, i) => (
-                  <li
-                    key={i}
-                    style={{ fontSize: "10px", lineHeight: "1.4", marginBottom: "2px" }}
-                  >
-                    {b}
-                  </li>
-                ))}
-              </ul>
-              {proj.techStack && (
-                <p style={{ fontSize: "10px", marginTop: "2px", paddingLeft: "18px" }}>
-                  <span style={{ fontWeight: 700 }}>Tech Stack:</span> {proj.techStack}
-                </p>
-              )}
-            </div>
+            <ProjectBlock key={proj.id} proj={proj} isLast={idx === projects.length - 1} />
           ))}
         </div>
       )}
 
-      {/* Skills */}
       {skills.length > 0 && (
         <div>
           <SectionTitle>Technical Skills</SectionTitle>
-          {skills.map((s) => (
-            <p
-              key={s.id}
-              style={{
-                fontSize: "10px",
-                lineHeight: "1.5",
-                marginBottom: "1px",
-              }}
-            >
-              <span style={{ fontWeight: 700 }}>{s.category}:</span> {s.items}
-            </p>
-          ))}
+          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+            {skills.map((s) => (
+              <SkillGroup key={s.id} skill={s} />
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Achievements */}
       {achievements.filter(Boolean).length > 0 && (
         <div>
           <SectionTitle>Achievements</SectionTitle>
-          <ul
-            style={{
-              listStyleType: "disc",
-              paddingLeft: "18px",
-              margin: 0,
-            }}
-          >
-            {achievements.filter(Boolean).map((a, i) => (
-              <li
-                key={i}
-                style={{
-                  fontSize: "10px",
-                  lineHeight: "1.45",
-                  marginBottom: "3px",
-                }}
-              >
-                {a}
-              </li>
-            ))}
-          </ul>
+          <BulletList items={achievements} />
         </div>
       )}
 
-      {/* Positions */}
       {positions.length > 0 && (
         <div>
           <SectionTitle>Positions of Responsibility</SectionTitle>
           {positions.map((pos, idx) => (
-            <div
-              key={pos.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-                marginBottom: idx < positions.length - 1 ? "4px" : "0",
-              }}
-            >
-              <p style={{ fontSize: "10px" }}>
-                <span style={{ fontWeight: 700 }}>{pos.title}</span>
-                <span style={{ color: "#444" }}> — {pos.organization}</span>
-              </p>
-              <p
-                style={{
-                  fontSize: "10px",
-                  flexShrink: 0,
-                  marginLeft: "16px",
-                  color: "#444",
-                }}
-              >
-                {pos.date}
-              </p>
-            </div>
+            <PORItem key={pos.id} pos={pos} isLast={idx === positions.length - 1} />
           ))}
         </div>
       )}

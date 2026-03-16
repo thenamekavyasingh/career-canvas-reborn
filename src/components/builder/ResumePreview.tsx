@@ -21,11 +21,13 @@ const ResumePreview = () => {
   return (
     <div
       id="resume-preview"
-      className="bg-white mx-auto shadow-lg"
       style={{
-        width: "210mm",
-        minHeight: "297mm",
+        width: "794px",
+        minHeight: "1123px",
         padding: "0.6in 0.7in",
+        background: "#ffffff",
+        boxShadow: "0 2px 16px rgba(0,0,0,0.12)",
+        margin: "0 auto",
       }}
     >
       {renderTemplate()}
