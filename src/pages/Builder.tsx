@@ -71,8 +71,8 @@ const BuilderContent = () => {
           </ScrollArea>
         </div>
 
-        <div className="flex-1 bg-secondary/30 overflow-auto">
-          <div className="p-6" ref={previewRef}>
+        <div className="flex-1 overflow-auto" style={{ background: "#e8e8e8" }}>
+          <div className="p-8 flex justify-center" ref={previewRef}>
             <ResumePreview />
           </div>
         </div>
